@@ -9,25 +9,15 @@ import android.view.ViewGroup;
 
 public class UserProfile extends Fragment {
 
-
-
-
     public UserProfile () {
 
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View mView = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        View mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         return mView;
     }
-
-
-
-
 
 }
