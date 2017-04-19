@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">HocamNerede</string>
+
+    <string name="user_profile">Hello User Profile Fragment</string>
+    <string name="timeline">Hello Timeline Fragment</string>
+    <string name="search">Hello Search Fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>
