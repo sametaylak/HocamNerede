@@ -86,7 +86,7 @@
             android:background="@drawable/btn_confirm"/>
 
         <com.gelecegiyazanlar.hocamnerede.CustomTextView
-            android:id="@+id/slideToLogin"
+            android:id="@+id/showLoginView"
             android:clickable="true"
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
