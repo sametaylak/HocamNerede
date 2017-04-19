@@ -1,9 +1,13 @@
 package com.gelecegiyazanlar.hocamnerede;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
@@ -11,12 +15,23 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class SignActivity extends AppCompatActivity {
+
+    private static final String TAG = "SignActivity";
 
     @BindView(R.id.loginPanel) ViewGroup loginPanel;
     @BindView(R.id.registerPanel) ViewGroup registerPanel;
@@ -31,12 +46,24 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.signUpUniversity) Spinner signUpUniversity;
     @BindView(R.id.signUpRole) RadioGroup signUpRole;
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference usersDatabaseReference;
+
+    public static Intent newIntent(Activity callerActivity){
+        return new Intent(callerActivity, SignActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
 
         ButterKnife.bind(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        usersDatabaseReference = firebaseDatabase.getReference().child("users");
     }
 
     @OnClick(R.id.signInConfirm)
@@ -49,18 +76,31 @@ public class SignActivity extends AppCompatActivity {
 
     @OnClick(R.id.signUpConfirm)
     public void signUpConfirm() {
-        String fullname = signUpNameLayout.getEditText().getText().toString();
-        String mail = signUpMailLayout.getEditText().getText().toString();
-        String password = signUpPasswordLayout.getEditText().getText().toString();
-        String university = signUpUniversity.getSelectedItem().toString();
-        String role = ((RadioButton)findViewById(signUpRole.getCheckedRadioButtonId())).getText().toString();
+        final String fullname = signUpNameLayout.getEditText().getText().toString();
+        final String mail = signUpMailLayout.getEditText().getText().toString();
+        final String password = signUpPasswordLayout.getEditText().getText().toString();
+        final String university = signUpUniversity.getSelectedItem().toString();
+        final String role = ((RadioButton)findViewById(signUpRole.getCheckedRadioButtonId())).getText().toString();
 
-        Toast.makeText(this, "Fullname : " + fullname + "\n" +
-                "Mail : " + mail + "\n" +
-                "Password : " + password + "\n" +
-                "University : " + university + "\n" +
-                "Role : " + role
-                , Toast.LENGTH_LONG).show();
+        firebaseAuth.createUserWithEmailAndPassword(mail, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role));
+                            Toast.makeText(SignActivity.this, "Başarıyla üye oldunuz!", Toast.LENGTH_LONG).show();
+
+                            Intent intent = MainActivity.newIntent(SignActivity.this);
+                            startActivity(intent);
+
+                            finish();
+                        } else {
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.showRegisterView)
