@@ -9,21 +9,13 @@ import android.view.ViewGroup;
 
 public class Timeline extends Fragment {
 
-
     public Timeline(){
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_timeline, container, false);
     }
-
-
-
-
-
 
 }

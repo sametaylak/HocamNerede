@@ -8,14 +8,9 @@ import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity{
 
-
-
-
-    //For Timeline
     Toolbar mToolbar;
     TabLayout mTabLayout;
     ViewPager mViewPager;
-
 
     TimelineViewPagerAdapter mViewPagerAdapter;
 
