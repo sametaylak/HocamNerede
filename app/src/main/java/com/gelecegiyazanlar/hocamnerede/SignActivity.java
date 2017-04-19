@@ -6,10 +6,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class SignActivity extends AppCompatActivity {
@@ -20,6 +24,12 @@ public class SignActivity extends AppCompatActivity {
 
     @BindView(R.id.signInMailLayout) TextInputLayout signInMailLayout;
     @BindView(R.id.signInPasswordLayout) TextInputLayout signInPasswordLayout;
+
+    @BindView(R.id.signUpNameLayout) TextInputLayout signUpNameLayout;
+    @BindView(R.id.signUpMailLayout) TextInputLayout signUpMailLayout;
+    @BindView(R.id.signUpPasswordLayout) TextInputLayout signUpPasswordLayout;
+    @BindView(R.id.signUpUniversity) Spinner signUpUniversity;
+    @BindView(R.id.signUpRole) RadioGroup signUpRole;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +45,22 @@ public class SignActivity extends AppCompatActivity {
         String password = signInPasswordLayout.getEditText().getText().toString();
 
         Toast.makeText(this, "Mail : " + mail + "\nPassword : " + password, Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.signUpConfirm)
+    public void signUpConfirm() {
+        String fullname = signUpNameLayout.getEditText().getText().toString();
+        String mail = signUpMailLayout.getEditText().getText().toString();
+        String password = signUpPasswordLayout.getEditText().getText().toString();
+        String university = signUpUniversity.getSelectedItem().toString();
+        String role = ((RadioButton)findViewById(signUpRole.getCheckedRadioButtonId())).getText().toString();
+
+        Toast.makeText(this, "Fullname : " + fullname + "\n" +
+                "Mail : " + mail + "\n" +
+                "Password : " + password + "\n" +
+                "University : " + university + "\n" +
+                "Role : " + role
+                , Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.showRegisterView)
