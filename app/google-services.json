@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "85209320637",
+    "firebase_url": "https://hocamnerede.firebaseio.com",
+    "project_id": "hocamnerede",
+    "storage_bucket": "hocamnerede.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85209320637:android:9875bf2426bfbef4",
+        "android_client_info": {
+          "package_name": "com.gelecegiyazanlar.hocamnerede"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85209320637-412gj0qp6bhbfh21pg4udtmmrru8uukv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gelecegiyazanlar.hocamnerede",
+            "certificate_hash": "b1364ec2f08e44b6c9d426bfa4d4d5bbc013e96d"
+          }
+        },
+        {
+          "client_id": "85209320637-70tb5lo5ps8fdnc9onkev6cafleo9pth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEkCxlaUMDHf0yPGvq3z9H7LZZ0Cifx6I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85209320637-70tb5lo5ps8fdnc9onkev6cafleo9pth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 public class Search extends Fragment {
 
     public Search(){
-        // yorum
     }
 
     @Override
