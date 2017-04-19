@@ -63,18 +63,27 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/signUpPasswordAgainLayout"
+        <Spinner
+            android:id="@+id/signUpUniversity"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:layout_width="match_parent"
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/radio_pirates"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/pass_again_hint" />
-
-        </android.support.design.widget.TextInputLayout>
+                android:text="Hoca" />
+            <RadioButton android:id="@+id/radio_ninjas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Öğrenci" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/signUpConfirm"
