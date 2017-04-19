@@ -21,11 +21,15 @@
             android:gravity="center"
             app:customFont="Lato-Black.ttf"
             android:textColor="#FFF"
-            android:textSize="34dip"
+            android:textSize="34sp"
             android:text="Hocam Nerede?"/>
 
     </RelativeLayout>
 
     <include android:id="@+id/loginPanel" layout="@layout/fragment_sign_in" />
+
+    <include android:id="@+id/registerPanel" layout="@layout/fragment_sign_up" android:visibility="invisible" />
+
+    <include android:id="@+id/passwordResetPanel" layout="@layout/fragment_password_reset" android:visibility="invisible" />
 
 </FrameLayout>
