@@ -1,10 +1,4 @@
 package com.gelecegiyazanlar.hocamnerede;
-
-<<<<<<< Updated upstream
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
-=======
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -23,7 +17,7 @@ public class MainActivity extends AppCompatActivity{
 
 
     TimelineViewPagerAdapter mViewPagerAdapter;
->>>>>>> Stashed changes
+
 
 
     @Override
@@ -32,9 +26,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
 
-<<<<<<< Updated upstream
-        Toast.makeText(MainActivity.this,"Naber",Toast.LENGTH_SHORT).show();
-=======
         mToolbar = (Toolbar)findViewById(R.id.toolbar_layout);
         setSupportActionBar(mToolbar);
         mTabLayout = (TabLayout)findViewById(R.id.tabLayout);
@@ -51,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
 
 
 
->>>>>>> Stashed changes
+
 
     }
 
