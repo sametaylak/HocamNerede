@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         Toast.makeText(MainActivity.this,"Naber",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "First Merge", Toast.LENGTH_LONG).show();
+
 
     }
 }
