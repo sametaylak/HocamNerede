@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:src="@drawable/default_avatar"
+        android:layout_width="128dp"
+        android:layout_height="128dp" />
+
+    <EditText
+        android:text="Samet Aylak"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:background="@drawable/et_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:text="sametaylak29@gmail.com"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:background="@drawable/et_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="Eski Şifre"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:background="@drawable/et_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="Yeni Şifre"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:background="@drawable/et_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Kaydet"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        android:textSize="18sp"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_confirm"/>
+
+</LinearLayout>
