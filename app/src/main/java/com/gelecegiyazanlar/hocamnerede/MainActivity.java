@@ -1,8 +1,7 @@
 package com.gelecegiyazanlar.hocamnerede;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +11,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Toast.makeText(MainActivity.this,"Naber",Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "First Merge", Toast.LENGTH_LONG).show();
 
 
     }
