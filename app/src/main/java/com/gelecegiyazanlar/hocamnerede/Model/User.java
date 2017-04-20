@@ -1,5 +1,7 @@
 package com.gelecegiyazanlar.hocamnerede.Model;
 
+import java.util.Objects;
+
 public class User {
     private String fullname;
     private String mail;
@@ -55,5 +57,9 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public boolean isStudent() {
+        return this.role.equals("Öğrenci");
     }
 }

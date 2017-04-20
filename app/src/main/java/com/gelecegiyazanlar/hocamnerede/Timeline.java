@@ -7,13 +7,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -27,6 +24,8 @@ import butterknife.OnClick;
 
 public class Timeline extends Fragment {
 
+    @BindView(R.id.shareLocationButton) FloatingActionButton shareLocationButton;
+
     private LocationManager locationManager;
     private MaterialDialog locationProgress;
 
@@ -38,6 +37,16 @@ public class Timeline extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
         ButterKnife.bind(this, rootView);
+
+        FirebaseHelper.getFirebaseUserDetail(new FirebaseHelper.FirebaseCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                User user = (User) result;
+                if (user.isStudent()) {
+                    shareLocationButton.setVisibility(View.GONE);
+                }
+            }
+        });
 
         return rootView;
     }
@@ -91,6 +100,13 @@ public class Timeline extends Fragment {
                                             user.getUniversity()
                                     );
                                     FirebaseHelper.saveLocationPost(post);
+                                    new MaterialDialog.Builder(getContext())
+                                            .title("Başarılı!")
+                                            .content("Konumunuz başarıyla paylaşıldı!")
+                                            .contentGravity(GravityEnum.CENTER)
+                                            .positiveText("Tamam")
+                                            .iconRes(R.drawable.ic_check_circle)
+                                            .show();
                                 }
                             });
                         }

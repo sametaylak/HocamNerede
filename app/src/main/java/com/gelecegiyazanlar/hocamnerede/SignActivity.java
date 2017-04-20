@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
@@ -15,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.gelecegiyazanlar.hocamnerede.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -71,10 +73,18 @@ public class SignActivity extends AppCompatActivity {
         String mail = signInMailLayout.getEditText().getText().toString();
         String password = signInPasswordLayout.getEditText().getText().toString();
 
+        final MaterialDialog signInProgress = new MaterialDialog.Builder(this)
+                .title("Giriş")
+                .content("Lütfen bekleyin...")
+                .progress(true, 0)
+                .progressIndeterminateStyle(true)
+                .cancelable(false)
+                .show();
         firebaseAuth.signInWithEmailAndPassword(mail, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        signInProgress.dismiss();
                         if(task.isSuccessful()) {
                             Intent intent = MainActivity.newIntent(SignActivity.this);
                             startActivity(intent);
@@ -89,31 +99,41 @@ public class SignActivity extends AppCompatActivity {
 
     @OnClick(R.id.signUpConfirm)
     public void signUpConfirm() {
-        final String fullname = signUpNameLayout.getEditText().getText().toString();
-        final String mail = signUpMailLayout.getEditText().getText().toString();
-        final String password = signUpPasswordLayout.getEditText().getText().toString();
-        final String university = signUpUniversity.getSelectedItem().toString();
-        final String role = ((RadioButton)findViewById(signUpRole.getCheckedRadioButtonId())).getText().toString();
+        if (validateSignUp()) {
+            final String fullname = signUpNameLayout.getEditText().getText().toString();
+            final String mail = signUpMailLayout.getEditText().getText().toString();
+            final String password = signUpPasswordLayout.getEditText().getText().toString();
+            final String university = signUpUniversity.getSelectedItem().toString();
+            final String role = ((RadioButton)findViewById(signUpRole.getCheckedRadioButtonId())).getText().toString();
 
-        firebaseAuth.createUserWithEmailAndPassword(mail, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role, null));
-                            Toast.makeText(SignActivity.this, "Başarıyla üye oldunuz!", Toast.LENGTH_LONG).show();
+            final MaterialDialog signUpProgress = new MaterialDialog.Builder(this)
+                    .title("Üyelik")
+                    .content("Lütfen bekleyin...")
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(true)
+                    .cancelable(false)
+                    .show();
+            firebaseAuth.createUserWithEmailAndPassword(mail, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            signUpProgress.dismiss();
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role, null));
+                                Toast.makeText(SignActivity.this, "Başarıyla üye oldunuz!", Toast.LENGTH_LONG).show();
 
-                            Intent intent = MainActivity.newIntent(SignActivity.this);
-                            startActivity(intent);
+                                Intent intent = MainActivity.newIntent(SignActivity.this);
+                                startActivity(intent);
 
-                            finish();
-                        } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                finish();
+                            } else {
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     @OnClick(R.id.showRegisterView)
@@ -138,5 +158,40 @@ public class SignActivity extends AppCompatActivity {
     public void showPasswordResetView() {
         loginPanel.setVisibility(View.INVISIBLE);
         passwordResetPanel.setVisibility(View.VISIBLE);
+    }
+
+    private boolean validateSignUp() {
+        boolean valid = true;
+
+        signUpNameLayout.setErrorEnabled(false);
+        signUpMailLayout.setErrorEnabled(false);
+        signUpPasswordLayout.setErrorEnabled(false);
+
+        String name = signUpNameLayout.getEditText().getText().toString().trim();
+        String mail = signUpMailLayout.getEditText().getText().toString().trim();
+        String password = signUpPasswordLayout.getEditText().getText().toString().trim();
+
+        if (name.isEmpty()) {
+            valid = false;
+            signUpNameLayout.setError("Bu alanın doldurulması gerekiyor!");
+        }
+        if (mail.isEmpty()) {
+            valid = false;
+            signUpMailLayout.setError("Bu alanın doldurulması gerekiyor!");
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
+            valid = false;
+            signUpMailLayout.setError("Geçersiz email adresi!");
+        }
+        if (password.isEmpty()) {
+            valid = false;
+            signUpPasswordLayout.setError("Bu alanın doldurulması gerekiyor!");
+        }
+        if (password.length() < 6) {
+            valid = false;
+            signUpPasswordLayout.setError("Parola en az 6 karakterden oluşmalıdır!");
+        }
+
+        return valid;
     }
 }
