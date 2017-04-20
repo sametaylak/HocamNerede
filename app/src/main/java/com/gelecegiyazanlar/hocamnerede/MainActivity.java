@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity{
     TimelineViewPagerAdapter mViewPagerAdapter;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;;
 
     public static Intent newIntent(Activity callerActivity){
         return new Intent(callerActivity, MainActivity.class);
@@ -49,24 +48,17 @@ public class MainActivity extends AppCompatActivity{
             startActivity(intent);
             finish();
         } else {
-            firebaseDatabase = FirebaseDatabase.getInstance();
-            firebaseDatabase.getReference().child("users").child(firebaseAuth.getCurrentUser().getUid())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User user = dataSnapshot.getValue(User.class);
-                            mUserFullName.setText(user.getFullname());
-                            mUserUniversity.setText(user.getUniversity());
-                            if (user.getAvatar() != null) {
-                                //TODO: Avatar resmini aktar
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+            FirebaseHelper.getFirebaseUserDetail(new FirebaseHelper.FirebaseCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    User user = (User) result;
+                    mUserFullName.setText(user.getFullname());
+                    mUserUniversity.setText(user.getUniversity());
+                    if (user.getAvatar() != null) {
+                        loadSmallAvatar();
+                    }
+                }
+            });
         }
 
         setContentView(R.layout.activity_main);
