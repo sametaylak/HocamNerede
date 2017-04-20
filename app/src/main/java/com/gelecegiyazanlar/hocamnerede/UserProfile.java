@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -49,12 +51,37 @@ public class UserProfile extends Fragment {
 
     @OnClick(R.id.userSettingSave)
     public void userSettingSave() {
+        updateMail();
+        updatePassword();
+    }
+
+    private void updatePassword() {
+        String oldPassword = userSettingOldPassword.getText().toString();
+        String newPassword = userSettingNewPassword.getText().toString();
+        if (!oldPassword.isEmpty() && !newPassword.isEmpty()) {
+            FirebaseFactory.updateUserPassword(oldPassword, newPassword, new FirebaseFactory.FirebaseCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    boolean status = (boolean)result;
+                    if(status) Toast.makeText(getActivity(), "Şifre değiştirildi!", Toast.LENGTH_LONG).show();
+                    else Toast.makeText(getActivity(), "Şifre değiştirirken bir sorun meydana geldi!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+    }
+
+    private void updateMail() {
         if(!userSettingMail.getText().toString().equals(user.getMail())) {
             FirebaseFactory.updateFirebaseUserMail(userSettingMail.getText().toString(),
                     new FirebaseFactory.FirebaseCallback() {
                         @Override
                         public void onSuccess(Object result) {
-                            Toast.makeText(getActivity(), "Mail değiştirildi.", Toast.LENGTH_LONG).show();
+                            boolean status = (boolean) result;
+                            if (status)
+                                Toast.makeText(getActivity(), "Mail değiştirildi.", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(getActivity(), "Mail değiştirirken bir sorun meydana geldi.", Toast.LENGTH_LONG).show();
                         }
                     });
         }

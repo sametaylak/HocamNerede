@@ -7,6 +7,8 @@ import com.gelecegiyazanlar.hocamnerede.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,9 +50,12 @@ public class FirebaseFactory {
         firebaseUser.updateEmail(newMail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                //TODO: sıkıntılı
-                callback.onSuccess(newMail);
-                updateUserMail(newMail);
+                if (task.isSuccessful()) {
+                    callback.onSuccess(true);
+                    updateUserMail(newMail);
+                }
+                else
+                    callback.onSuccess(false);
             }
         });
     }
@@ -64,6 +69,31 @@ public class FirebaseFactory {
                 .child(firebaseUser.getUid())
                 .child("mail")
                 .setValue(newMail);
+    }
+
+    public static void updateUserPassword(String oldPassword, final String newPassword, final FirebaseCallback callback) {
+        final FirebaseUser firebaseUser = getCurrentUser();
+
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(firebaseUser.getEmail(), oldPassword);
+
+        firebaseUser.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            firebaseUser.updatePassword(newPassword)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            callback.onSuccess(true);
+                                        }
+                                    });
+                        } else {
+                            callback.onSuccess(false);
+                        }
+                    }
+                });
     }
 
 }
