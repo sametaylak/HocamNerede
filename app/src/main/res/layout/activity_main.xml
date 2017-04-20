@@ -18,6 +18,7 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userSmallAvatar"
                 android:src="@drawable/default_avatar"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"

@@ -1,8 +1,12 @@
 package com.gelecegiyazanlar.hocamnerede;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.gelecegiyazanlar.hocamnerede.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,8 +19,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-public class FirebaseFactory {
+import java.util.concurrent.ExecutionException;
+
+public class FirebaseHelper {
 
     public interface FirebaseCallback{
         void onSuccess(Object result);
@@ -71,6 +79,17 @@ public class FirebaseFactory {
                 .setValue(newMail);
     }
 
+    public static void updateUserAvatar(String newAvatar) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser firebaseUser = getCurrentUser();
+
+        firebaseDatabase.getReference()
+                .child("users")
+                .child(firebaseUser.getUid())
+                .child("avatar")
+                .setValue(newAvatar);
+    }
+
     public static void updateUserPassword(String oldPassword, final String newPassword, final FirebaseCallback callback) {
         final FirebaseUser firebaseUser = getCurrentUser();
 
@@ -96,4 +115,11 @@ public class FirebaseFactory {
                 });
     }
 
+    public static StorageReference getUserAvatarRef(String avatar) {
+        return FirebaseStorage
+                .getInstance()
+                .getReference()
+                .child("avatars")
+                .child(avatar);
+    }
 }

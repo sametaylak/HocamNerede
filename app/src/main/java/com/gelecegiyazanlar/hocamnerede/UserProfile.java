@@ -5,19 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.gelecegiyazanlar.hocamnerede.Model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -46,14 +43,20 @@ public class UserProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
 
-        FirebaseFactory.getFirebaseUserDetail(new FirebaseFactory.FirebaseCallback() {
+        FirebaseHelper.getFirebaseUserDetail(new FirebaseHelper.FirebaseCallback() {
             @Override
             public void onSuccess(Object result) {
                 user = (User) result;
                 userSettingFullName.setText(user.getFullname());
                 userSettingMail.setText(user.getMail());
+
+                Glide.with(getActivity())
+                        .using(new FirebaseImageLoader())
+                        .load(FirebaseHelper.getUserAvatarRef(user.getAvatar()))
+                        .into(userSettingAvatar);
             }
         });
+
 
         return view;
     }
@@ -76,7 +79,7 @@ public class UserProfile extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
+            final Uri selectedImage = data.getData();
 
             FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
             StorageReference avatarRef = firebaseStorage
@@ -86,8 +89,8 @@ public class UserProfile extends Fragment {
             avatarRef.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    Log.d("LOL", "onSuccess: " + downloadUrl);
+                    FirebaseHelper.updateUserAvatar(selectedImage.getLastPathSegment());
+                    userSettingAvatar.setImageURI(selectedImage);
                 }
             });
         }
@@ -97,7 +100,7 @@ public class UserProfile extends Fragment {
         String oldPassword = userSettingOldPassword.getText().toString();
         String newPassword = userSettingNewPassword.getText().toString();
         if (!oldPassword.isEmpty() && !newPassword.isEmpty()) {
-            FirebaseFactory.updateUserPassword(oldPassword, newPassword, new FirebaseFactory.FirebaseCallback() {
+            FirebaseHelper.updateUserPassword(oldPassword, newPassword, new FirebaseHelper.FirebaseCallback() {
                 @Override
                 public void onSuccess(Object result) {
                     boolean status = (boolean)result;
@@ -111,8 +114,8 @@ public class UserProfile extends Fragment {
 
     private void updateMail() {
         if(!userSettingMail.getText().toString().equals(user.getMail())) {
-            FirebaseFactory.updateFirebaseUserMail(userSettingMail.getText().toString(),
-                    new FirebaseFactory.FirebaseCallback() {
+            FirebaseHelper.updateFirebaseUserMail(userSettingMail.getText().toString(),
+                    new FirebaseHelper.FirebaseCallback() {
                         @Override
                         public void onSuccess(Object result) {
                             boolean status = (boolean) result;
