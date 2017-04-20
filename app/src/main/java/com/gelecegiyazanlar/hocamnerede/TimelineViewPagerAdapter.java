@@ -33,9 +33,9 @@ public class TimelineViewPagerAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new UserProfile();
-            case 1:
                 return new Timeline();
+            case 1:
+                return new UserProfile();
             case 2:
                 return new Search();
             default:

@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="10dp"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userSettingAvatar"
         android:src="@drawable/default_avatar"
         android:layout_width="128dp"
         android:layout_height="128dp" />
 
     <EditText
+        android:id="@+id/userSettingFullName"
         android:text="Samet Aylak"
         android:layout_margin="5dp"
         android:padding="10dp"
@@ -19,6 +24,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/userSettingMail"
         android:text="sametaylak29@gmail.com"
         android:layout_margin="5dp"
         android:padding="10dp"
@@ -27,7 +33,9 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/userSettingOldPassword"
         android:hint="Eski Şifre"
+        android:inputType="textPassword"
         android:layout_margin="5dp"
         android:padding="10dp"
         android:background="@drawable/et_background"
@@ -35,7 +43,9 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/userSettingNewPassword"
         android:hint="Yeni Şifre"
+        android:inputType="textPassword"
         android:layout_margin="5dp"
         android:padding="10dp"
         android:background="@drawable/et_background"
@@ -43,6 +53,7 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/userSettingSave"
         android:text="Kaydet"
         android:textAllCaps="false"
         android:textColor="#FFF"

@@ -5,14 +5,16 @@ public class User {
     private String mail;
     private String university;
     private String role;
+    private String avatar;
 
     public User() { }
 
-    public User(String fullname, String mail, String university, String role) {
+    public User(String fullname, String mail, String university, String role, String avatar) {
         this.fullname = fullname;
         this.mail = mail;
         this.university = university;
         this.role = role;
+        this.avatar = avatar;
     }
 
     public String getFullname() {
@@ -45,5 +47,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

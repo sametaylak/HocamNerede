@@ -26,24 +26,27 @@
 
             <LinearLayout
                 android:orientation="vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.gelecegiyazanlar.hocamnerede.CustomTextView
+                    android:id="@+id/userFullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:customFont="Lato-Black.ttf"
                     android:text="Samet Aylak"
                     android:textColor="#FFF"
-                    android:textSize="21sp"/>
+                    android:textSize="20sp"/>
 
                 <com.gelecegiyazanlar.hocamnerede.CustomTextView
+                    android:id="@+id/userUniversity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:customFont="Lato-Regular.ttf"
                     android:text="Bartın Üniversitesi"
                     android:textColor="#FFF"
-                    android:textSize="21sp"/>
+                    android:textSize="11sp"/>
 
             </LinearLayout>
 

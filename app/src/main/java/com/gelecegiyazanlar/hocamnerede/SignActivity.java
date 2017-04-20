@@ -71,7 +71,20 @@ public class SignActivity extends AppCompatActivity {
         String mail = signInMailLayout.getEditText().getText().toString();
         String password = signInPasswordLayout.getEditText().getText().toString();
 
-        Toast.makeText(this, "Mail : " + mail + "\nPassword : " + password, Toast.LENGTH_LONG).show();
+        firebaseAuth.signInWithEmailAndPassword(mail, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+                            Intent intent = MainActivity.newIntent(SignActivity.this);
+                            startActivity(intent);
+
+                            finish();
+                        } else {
+                            Toast.makeText(SignActivity.this, "Lütfen bilgilerinizi kontrol ediniz!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.signUpConfirm)
@@ -89,7 +102,7 @@ public class SignActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role));
+                            usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role, null));
                             Toast.makeText(SignActivity.this, "Başarıyla üye oldunuz!", Toast.LENGTH_LONG).show();
 
                             Intent intent = MainActivity.newIntent(SignActivity.this);
