@@ -26,9 +26,9 @@ public class TimelineViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new Timeline();
-            case 1:
                 return new UserProfile();
+            case 1:
+                return new Timeline();
             case 2:
                 return new Search();
             default:
@@ -38,7 +38,8 @@ public class TimelineViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position){
-        return tabTitles.get(position);
+        //return tabTitles.get(position);
+        return null;
     }
 
     @Override

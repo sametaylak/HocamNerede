@@ -174,17 +174,9 @@ public class SignActivity extends AppCompatActivity {
             valid = false;
             signUpNameLayout.setError("Bu alanın doldurulması gerekiyor!");
         }
-        if (mail.isEmpty()) {
-            valid = false;
-            signUpMailLayout.setError("Bu alanın doldurulması gerekiyor!");
-        }
         if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
             valid = false;
             signUpMailLayout.setError("Geçersiz email adresi!");
-        }
-        if (password.isEmpty()) {
-            valid = false;
-            signUpPasswordLayout.setError("Bu alanın doldurulması gerekiyor!");
         }
         if (password.length() < 6) {
             valid = false;

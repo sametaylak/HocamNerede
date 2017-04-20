@@ -81,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager();
     }
 
+    private void setupTabIcons() {
+        mTabLayout.getTabAt(0).setIcon(R.drawable.ic_person);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.ic_timeline);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.ic_search);
+
+        mTabLayout.getTabAt(1).select();
+    }
+
     private void bindViews() {
         mToolbar = (Toolbar)findViewById(R.id.toolbar_layout);
         mTabLayout = (TabLayout)findViewById(R.id.tabLayout);
@@ -98,17 +106,25 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseHelper.updateUserStatus(b);
             }
         });
+        mUserSmallAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTabLayout.getTabAt(0).select();
+            }
+        });
     }
 
     private void setupViewPager() {
         mViewPagerAdapter = new TimelineViewPagerAdapter(getSupportFragmentManager());
 
-        mViewPagerAdapter.addFragments(new Timeline(),"Timeline");
         mViewPagerAdapter.addFragments(new UserProfile(),"Profile");
+        mViewPagerAdapter.addFragments(new Timeline(),"Timeline");
         mViewPagerAdapter.addFragments(new Search(),"Search");
 
         mViewPager.setAdapter(mViewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        setupTabIcons();
     }
 
     private void loadSmallAvatar(User user) {
