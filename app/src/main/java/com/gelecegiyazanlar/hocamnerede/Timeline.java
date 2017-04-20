@@ -44,16 +44,23 @@ public class Timeline extends Fragment implements View.OnClickListener,GoogleApi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        //LOGS SHOW THAT THIS IS ALWAYS CALLED WITH CORRECT VALUES
+        super.onSaveInstanceState(savedInstanceState);
+        /*
+        savedInstanceState.putString("string", "example");
+        savedInstanceState.putBoolean("boolean", bool);*/
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,final Bundle savedInstanceState) {
 
 
         mView = inflater.inflate(R.layout.pop_up_message, container, false);
 
         txtOutputLatLon = (TextView) mView.findViewById(R.id.text);
         buildGoogleApiClient();
-
-
-
 
 
 
@@ -64,19 +71,43 @@ public class Timeline extends Fragment implements View.OnClickListener,GoogleApi
             @Override
             public void onClick(View v) {
 
+                ////////////////////////////////////////////////
+                mLocationRequest = LocationRequest.create();
+                mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                mLocationRequest.setInterval(100); // Update location every second
+
+                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(mView.getContext(), "İzin alınamadı....", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                if (mLastLocation != null) {
+                    lat = (float) mLastLocation.getLatitude();
+                    lon = (float) mLastLocation.getLongitude();
+
+                    Toast.makeText(mView.getContext(),lat+" "+lon, Toast.LENGTH_LONG).show();
+
+                }
+                updateUI();
+                ////////////////////////////////////////////////
                 AlertDialog.Builder mBuild = new AlertDialog.Builder(v.getContext());
 
-                View view = getLayoutInflater(savedInstanceState).inflate(R.layout.fragment_timeline, null);
-                final EditText mMessage = (EditText)view.findViewById(R.id.editText);
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_up_message, null);
+                final EditText mMessage = (EditText)getActivity().findViewById(R.id.editText);
 
-                Button sendMessage = (Button)view.findViewById(R.id.sendButton);
+                Button sendMessage = (Button)getActivity().findViewById(R.id.sendButton);
 
                 sendMessage.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        if(!mMessage.getText().toString().isEmpty()){
+                        public void onClick(View v) {
+                            if(!mMessage.getText().toString().isEmpty()){
 
-                        }
+                                mMessage.setText("");
+
+
+                            }
                     }
                 });
                 mBuild.setView(view);
@@ -89,26 +120,9 @@ public class Timeline extends Fragment implements View.OnClickListener,GoogleApi
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(100); // Update location every second
-
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(mView.getContext(), "İzin alınamadı....", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            lat = (float) mLastLocation.getLatitude();
-            lon = (float) mLastLocation.getLongitude();
-
-            Toast.makeText(mView.getContext(),lat+" "+lon, Toast.LENGTH_LONG).show();
-
-        }
-        updateUI();
 
     }
 
