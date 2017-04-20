@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.gelecegiyazanlar.hocamnerede.Model.LocationPost;
 import com.gelecegiyazanlar.hocamnerede.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,11 @@ import com.google.firebase.storage.StorageReference;
 import java.util.concurrent.ExecutionException;
 
 public class FirebaseHelper {
+
+    public static void saveLocationPost(LocationPost post) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference().child("locationPosts").push().setValue(post);
+    }
 
     public interface FirebaseCallback{
         void onSuccess(Object result);
