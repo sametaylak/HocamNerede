@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
+import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

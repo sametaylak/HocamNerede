@@ -38,7 +38,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp" />
 
-            <com.gelecegiyazanlar.hocamnerede.CustomTextView
+            <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
                 android:id="@+id/itemFullname"
                 android:layout_toRightOf="@+id/itemAvatar"
                 android:layout_below="@+id/itemMap"
@@ -47,7 +47,7 @@
                 app:customFont="Lato-Black.ttf"
                 android:text="Samet Aylak"/>
 
-            <com.gelecegiyazanlar.hocamnerede.CustomTextView
+            <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
                 android:layout_below="@+id/itemFullname"
                 android:layout_toRightOf="@+id/itemAvatar"
                 android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package com.gelecegiyazanlar.hocamnerede;
+package com.gelecegiyazanlar.hocamnerede.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.gelecegiyazanlar.hocamnerede.R;
 
 public class CustomTextView extends TextView {
     private static final String TAG = "TextView";

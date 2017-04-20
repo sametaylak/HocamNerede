@@ -1,6 +1,4 @@
-package com.gelecegiyazanlar.hocamnerede.Model;
-
-import java.util.Objects;
+package com.gelecegiyazanlar.hocamnerede.model;
 
 public class User {
     private String fullname;
@@ -8,6 +6,7 @@ public class User {
     private String university;
     private String role;
     private String avatar;
+    private boolean status;
 
     public User() { }
 
@@ -17,6 +16,7 @@ public class User {
         this.university = university;
         this.role = role;
         this.avatar = avatar;
+        this.status = true;
     }
 
     public String getFullname() {
@@ -57,6 +57,14 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public boolean isStudent() {

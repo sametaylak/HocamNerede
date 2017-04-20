@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gelecegiyazanlar.hocamnerede.Model.LocationPost;
-import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
+import com.gelecegiyazanlar.hocamnerede.model.LocationPost;
+import com.gelecegiyazanlar.hocamnerede.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

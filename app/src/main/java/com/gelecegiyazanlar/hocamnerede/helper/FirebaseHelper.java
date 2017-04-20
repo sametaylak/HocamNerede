@@ -1,16 +1,10 @@
-package com.gelecegiyazanlar.hocamnerede;
+package com.gelecegiyazanlar.hocamnerede.helper;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.bumptech.glide.Glide;
-import com.gelecegiyazanlar.hocamnerede.Model.LocationPost;
-import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.gelecegiyazanlar.hocamnerede.model.LocationPost;
+import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -22,8 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.concurrent.ExecutionException;
 
 public class FirebaseHelper {
 
@@ -83,6 +75,17 @@ public class FirebaseHelper {
                 .child(firebaseUser.getUid())
                 .child("mail")
                 .setValue(newMail);
+    }
+
+    public static void updateUserStatus(boolean status) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser firebaseUser = getCurrentUser();
+
+        firebaseDatabase.getReference()
+                .child("users")
+                .child(firebaseUser.getUid())
+                .child("status")
+                .setValue(!status);
     }
 
     public static void updateUserAvatar(String newAvatar) {

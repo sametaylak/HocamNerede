@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.gelecegiyazanlar.hocamnerede.CustomTextView
+        <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_confirm"/>
 
-        <com.gelecegiyazanlar.hocamnerede.CustomTextView
+        <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
             android:id="@+id/showLoginView"
             android:clickable="true"
             android:layout_marginTop="15dp"

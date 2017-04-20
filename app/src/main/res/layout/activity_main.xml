@@ -28,10 +28,10 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <com.gelecegiyazanlar.hocamnerede.CustomTextView
+                <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
                     android:id="@+id/userFullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                     android:textColor="#FFF"
                     android:textSize="20sp"/>
 
-                <com.gelecegiyazanlar.hocamnerede.CustomTextView
+                <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
                     android:id="@+id/userUniversity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,6 +50,31 @@
                     android:textSize="11sp"/>
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/userStatusButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
+                        android:text="Meşgul"
+                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

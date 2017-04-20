@@ -1,4 +1,4 @@
-package com.gelecegiyazanlar.hocamnerede.Model;
+package com.gelecegiyazanlar.hocamnerede.model;
 
 public class LocationPost {
 

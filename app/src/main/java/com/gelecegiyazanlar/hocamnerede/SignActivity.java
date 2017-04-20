@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class SignActivity extends AppCompatActivity {

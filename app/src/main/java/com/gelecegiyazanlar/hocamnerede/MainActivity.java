@@ -1,31 +1,22 @@
 package com.gelecegiyazanlar.hocamnerede;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.widget.Toast;
+import android.widget.CompoundButton;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
+import com.gelecegiyazanlar.hocamnerede.model.User;
+import com.gelecegiyazanlar.hocamnerede.views.CustomTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     CustomTextView mUserFullName;
     CustomTextView mUserUniversity;
     CircleImageView mUserSmallAvatar;
+    SwitchCompat mUserStatusButton;
 
     TimelineViewPagerAdapter mViewPagerAdapter;
 
@@ -66,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
                     if (user.getAvatar() != null) {
                         loadSmallAvatar(user);
                     }
+                    if (user.getStatus())
+                        mUserStatusButton.setChecked(false);
+                    else
+                        mUserStatusButton.setChecked(true);
                 }
             });
         }
@@ -83,7 +79,15 @@ public class MainActivity extends AppCompatActivity {
         mUserFullName = (CustomTextView)findViewById(R.id.userFullName);
         mUserUniversity = (CustomTextView)findViewById(R.id.userUniversity);
         mUserSmallAvatar = (CircleImageView) findViewById(R.id.userSmallAvatar);
+        mUserStatusButton = (SwitchCompat) findViewById(R.id.userStatusButton);
         setSupportActionBar(mToolbar);
+
+        mUserStatusButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                FirebaseHelper.updateUserStatus(b);
+            }
+        });
     }
 
     private void setupViewPager() {
