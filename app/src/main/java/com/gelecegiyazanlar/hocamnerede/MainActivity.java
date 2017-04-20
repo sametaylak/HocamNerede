@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     mUserFullName.setText(user.getFullname());
                     mUserUniversity.setText(user.getUniversity());
                     if (user.getAvatar() != null) {
-                        loadSmallAvatar();
+                        loadSmallAvatar(user);
                     }
                 }
             });
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         bindViews();
         setupViewPager();
-        loadSmallAvatar();
     }
 
     private void bindViews() {
@@ -98,17 +97,11 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    private void loadSmallAvatar() {
-        FirebaseHelper.getFirebaseUserDetail(new FirebaseHelper.FirebaseCallback() {
-            @Override
-            public void onSuccess(Object result) {
-                User user = (User) result;
-                Glide.with(MainActivity.this)
-                        .using(new FirebaseImageLoader())
-                        .load(FirebaseHelper.getUserAvatarRef(user.getAvatar()))
-                        .into(mUserSmallAvatar);
-            }
-        });
+    private void loadSmallAvatar(User user) {
+        Glide.with(MainActivity.this)
+                .using(new FirebaseImageLoader())
+                .load(FirebaseHelper.getUserAvatarRef(user.getAvatar()))
+                .into(mUserSmallAvatar);
     }
 
 }

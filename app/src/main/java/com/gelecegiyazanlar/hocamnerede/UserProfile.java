@@ -50,10 +50,12 @@ public class UserProfile extends Fragment {
                 userSettingFullName.setText(user.getFullname());
                 userSettingMail.setText(user.getMail());
 
-                Glide.with(getActivity())
-                        .using(new FirebaseImageLoader())
-                        .load(FirebaseHelper.getUserAvatarRef(user.getAvatar()))
-                        .into(userSettingAvatar);
+                if (user.getAvatar() != null) {
+                    Glide.with(getActivity())
+                            .using(new FirebaseImageLoader())
+                            .load(FirebaseHelper.getUserAvatarRef(user.getAvatar()))
+                            .into(userSettingAvatar);
+                }
             }
         });
 
