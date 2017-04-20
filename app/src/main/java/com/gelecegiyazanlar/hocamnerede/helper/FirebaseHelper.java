@@ -131,4 +131,5 @@ public class FirebaseHelper {
                 .child("avatars")
                 .child(avatar);
     }
+
 }

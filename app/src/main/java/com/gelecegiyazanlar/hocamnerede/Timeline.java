@@ -7,6 +7,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
 import com.gelecegiyazanlar.hocamnerede.model.LocationPost;
 import com.gelecegiyazanlar.hocamnerede.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,13 +37,15 @@ import butterknife.OnClick;
 public class Timeline extends Fragment {
 
     @BindView(R.id.shareLocationButton) FloatingActionButton shareLocationButton;
+    @BindView(R.id.timelineRecyclerView) RecyclerView timelineRecyclerView;
 
     private LocationManager locationManager;
     private MaterialDialog locationProgress;
+    private TimelineRecyclerAdapter locationAdapter;
 
-    public Timeline(){
+    private List<LocationPost> locationPosts = new ArrayList<>();
 
-    }
+    public Timeline() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +62,32 @@ public class Timeline extends Fragment {
             }
         });
 
+        getLocationPostsAndSetAdapter();
+
         return rootView;
+    }
+
+    private void getLocationPostsAndSetAdapter() {
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("locationPosts")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                                locationPosts.add(snap.getValue(LocationPost.class));
+                            }
+                            locationAdapter = new TimelineRecyclerAdapter(getContext(), locationPosts);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                            timelineRecyclerView.setLayoutManager(mLayoutManager);
+                            timelineRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                            timelineRecyclerView.setAdapter(locationAdapter);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
     }
 
     @OnClick(R.id.shareLocationButton)
@@ -93,13 +131,27 @@ public class Timeline extends Fragment {
                                 @Override
                                 public void onSuccess(Object result) {
                                     User user = (User) result;
-                                    LocationPost post = new LocationPost(
-                                            FirebaseHelper.getCurrentUser().getUid(),
-                                            location.getLatitude(),
-                                            location.getLongitude(),
-                                            input.toString(),
-                                            user.getUniversity()
-                                    );
+                                    LocationPost post;
+                                    if (user.getAvatar() != null) {
+                                        post = new LocationPost(
+                                                user.getFullname(),
+                                                location.getLatitude(),
+                                                location.getLongitude(),
+                                                input.toString(),
+                                                user.getUniversity(),
+                                                user.getAvatar()
+                                        );
+                                    } else {
+                                        post = new LocationPost(
+                                                user.getFullname(),
+                                                location.getLatitude(),
+                                                location.getLongitude(),
+                                                input.toString(),
+                                                user.getUniversity(),
+                                                null
+                                        );
+                                    }
+
                                     FirebaseHelper.saveLocationPost(post);
                                     new MaterialDialog.Builder(getContext())
                                             .title("Başarılı!")

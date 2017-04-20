@@ -8,7 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     CustomTextView mUserUniversity;
     CircleImageView mUserSmallAvatar;
     SwitchCompat mUserStatusButton;
+    RelativeLayout mStatusLayout;
 
     TimelineViewPagerAdapter mViewPagerAdapter;
 
@@ -55,13 +58,19 @@ public class MainActivity extends AppCompatActivity {
                     User user = (User) result;
                     mUserFullName.setText(user.getFullname());
                     mUserUniversity.setText(user.getUniversity());
+
                     if (user.getAvatar() != null) {
                         loadSmallAvatar(user);
                     }
+
                     if (user.getStatus())
                         mUserStatusButton.setChecked(false);
                     else
                         mUserStatusButton.setChecked(true);
+
+                    if (user.isStudent()) {
+                        mStatusLayout.setVisibility(View.GONE);
+                    }
                 }
             });
         }
@@ -80,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         mUserUniversity = (CustomTextView)findViewById(R.id.userUniversity);
         mUserSmallAvatar = (CircleImageView) findViewById(R.id.userSmallAvatar);
         mUserStatusButton = (SwitchCompat) findViewById(R.id.userStatusButton);
+        mStatusLayout = (RelativeLayout) findViewById(R.id.statusLayout);
         setSupportActionBar(mToolbar);
 
         mUserStatusButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -3,14 +3,11 @@ package com.gelecegiyazanlar.hocamnerede;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Created by ASUS-PC on 19.4.2017.
- */
-
-public class TimelineViewPagerAdapter extends FragmentPagerAdapter{
+public class TimelineViewPagerAdapter extends FragmentStatePagerAdapter {
 
     ArrayList<Fragment> fragmentsList = new ArrayList<>();
     ArrayList<String> tabTitles = new ArrayList<>();
@@ -24,11 +21,7 @@ public class TimelineViewPagerAdapter extends FragmentPagerAdapter{
     public TimelineViewPagerAdapter(FragmentManager fm){
         super(fm);
     }
-/*
-    @Override
-    public Fragment getItem(int position) {
-        return fragmentsList.get(position);
-    }*/
+
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -42,7 +35,6 @@ public class TimelineViewPagerAdapter extends FragmentPagerAdapter{
                 return null;
         }
     }
-
 
     @Override
     public CharSequence getPageTitle(int position){

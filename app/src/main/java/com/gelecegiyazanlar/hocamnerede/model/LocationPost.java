@@ -2,28 +2,38 @@ package com.gelecegiyazanlar.hocamnerede.model;
 
 public class LocationPost {
 
-    private String userUid;
-
+    private String userFullname;
+    private String userAvatar;
+    private Double userLatitude;
     private Double userLongitude;
     private String userDescription;
     private String userUniversity;
+
     public LocationPost() {}
 
-    public LocationPost(String userUid, Double userLatitude, Double userLongitude, String userDescription, String userUniversity) {
-        this.userUid = userUid;
+    public LocationPost(String userFullname, Double userLatitude, Double userLongitude, String userDescription, String userUniversity, String userAvatar) {
+        this.userFullname = userFullname;
         this.userLatitude = userLatitude;
         this.userLongitude = userLongitude;
         this.userDescription = userDescription;
         this.userUniversity = userUniversity;
+        this.userAvatar = userAvatar;
     }
 
-    private Double userLatitude;
-    public String getUserUid() {
-        return userUid;
+    public String getUserAvatar() {
+        return userAvatar;
     }
 
-    public void setUserUid(String userUid) {
-        this.userUid = userUid;
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public String getUserFullname() {
+        return userFullname;
+    }
+
+    public void setUserFullname(String userFullname) {
+        this.userFullname = userFullname;
     }
 
     public Double getUserLatitude() {
