@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView mUserSmallAvatar;
     SwitchCompat mUserStatusButton;
     RelativeLayout mStatusLayout;
+    TextView mTextView;
+    boolean busy;
 
     TimelineViewPagerAdapter mViewPagerAdapter;
 
@@ -90,11 +93,22 @@ public class MainActivity extends AppCompatActivity {
         mUserSmallAvatar = (CircleImageView) findViewById(R.id.userSmallAvatar);
         mUserStatusButton = (SwitchCompat) findViewById(R.id.userStatusButton);
         mStatusLayout = (RelativeLayout) findViewById(R.id.statusLayout);
+        mTextView = (TextView)findViewById(R.id.switchText);
+        busy = true;
         setSupportActionBar(mToolbar);
 
         mUserStatusButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(busy){
+                    mTextView.setText("Uygun");
+                    busy = false;
+                }
+                else{
+                    mTextView.setText("Meşgul");
+                    busy = true;
+                }
                 FirebaseHelper.updateUserStatus(b);
             }
         });
