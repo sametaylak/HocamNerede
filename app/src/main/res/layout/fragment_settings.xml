@@ -16,7 +16,6 @@
 
     <EditText
         android:id="@+id/userSettingFullName"
-        android:text="Samet Aylak"
         android:layout_margin="5dp"
         android:padding="10dp"
         android:background="@drawable/et_background"
@@ -25,7 +24,6 @@
 
     <EditText
         android:id="@+id/userSettingMail"
-        android:text="sametaylak29@gmail.com"
         android:layout_margin="5dp"
         android:padding="10dp"
         android:background="@drawable/et_background"
