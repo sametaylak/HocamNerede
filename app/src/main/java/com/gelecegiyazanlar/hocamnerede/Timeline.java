@@ -53,6 +53,9 @@ public class Timeline extends Fragment {
             Toast.makeText(getActivity(), "DEğiştiiii", Toast.LENGTH_SHORT).show();
             Log.d("Location Changed", "Lat : " + location.getLatitude());
 
+            double latitude = location.getLatitude();
+
+
         }
 
         @Override
@@ -70,19 +73,11 @@ public class Timeline extends Fragment {
         public void onProviderDisabled(String provider) {
             Toast.makeText(getActivity(), "Kapandııı", Toast.LENGTH_SHORT).show();
         }
-
-
     };
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-
-
-
-
-
-
 
 
         mView = inflater.inflate(R.layout.fragment_timeline, container, false);
@@ -94,13 +89,13 @@ public class Timeline extends Fragment {
             @Override
             public void onClick(View v) {
 
-               final LocationManager locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
-
-
+                final LocationManager locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
 
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,locationListener);
+
+
                 }
                 else{
                     Toast.makeText(getActivity(),"Konum Servisiniz Kapalı",Toast.LENGTH_SHORT).show();
