@@ -5,22 +5,19 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gelecegiyazanlar.hocamnerede.Model.LocationPost;
 import com.gelecegiyazanlar.hocamnerede.Model.User;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,6 +27,7 @@ public class Timeline extends Fragment {
     private LocationManager locationManager;
     private MaterialDialog locationProgress;
 
+
     public Timeline(){
 
     }
@@ -38,6 +36,9 @@ public class Timeline extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
         ButterKnife.bind(this, rootView);
+
+
+
 
         return rootView;
     }
