@@ -1,5 +1,8 @@
 package com.gelecegiyazanlar.hocamnerede;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,10 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +29,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class UserProfile extends Fragment {
+    private static final int PICK_PHOTO_FOR_AVATAR = 1;
+
     @BindView(R.id.userSettingAvatar) CircleImageView userSettingAvatar;
     @BindView(R.id.userSettingFullName) EditText userSettingFullName;
     @BindView(R.id.userSettingMail) EditText userSettingMail;
@@ -53,6 +62,35 @@ public class UserProfile extends Fragment {
     public void userSettingSave() {
         updateMail();
         updatePassword();
+    }
+
+    @OnClick(R.id.userSettingAvatar)
+    public void onUserSettingAvatarClick() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+            StorageReference avatarRef = firebaseStorage
+                    .getReference()
+                    .child("avatars/" + selectedImage.getLastPathSegment());
+
+            avatarRef.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    Log.d("LOL", "onSuccess: " + downloadUrl);
+                }
+            });
+        }
     }
 
     private void updatePassword() {
