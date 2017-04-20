@@ -1,12 +1,21 @@
 package com.gelecegiyazanlar.hocamnerede;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -20,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     TabLayout mTabLayout;
@@ -33,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
 
     private FirebaseAuth firebaseAuth;
 
-    public static Intent newIntent(Activity callerActivity){
+    public static Intent newIntent(Activity callerActivity) {
         return new Intent(callerActivity, MainActivity.class);
     }
 
@@ -43,7 +52,7 @@ public class MainActivity extends AppCompatActivity{
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser fbUser = firebaseAuth.getCurrentUser();
-        if(fbUser == null) {
+        if (fbUser == null) {
             Intent intent = SignActivity.newIntent(MainActivity.this);
             startActivity(intent);
             finish();
