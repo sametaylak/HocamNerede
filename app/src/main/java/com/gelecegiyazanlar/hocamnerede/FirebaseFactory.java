@@ -1,6 +1,12 @@
 package com.gelecegiyazanlar.hocamnerede;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import com.gelecegiyazanlar.hocamnerede.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +41,29 @@ public class FirebaseFactory {
 
                     }
                 });
+    }
+
+    public static void updateFirebaseUserMail(final String newMail, final FirebaseCallback callback) {
+        FirebaseUser firebaseUser = getCurrentUser();
+        firebaseUser.updateEmail(newMail).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //TODO: sıkıntılı
+                callback.onSuccess(newMail);
+                updateUserMail(newMail);
+            }
+        });
+    }
+
+    public static void updateUserMail(String newMail) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser firebaseUser = getCurrentUser();
+
+        firebaseDatabase.getReference()
+                .child("users")
+                .child(firebaseUser.getUid())
+                .child("mail")
+                .setValue(newMail);
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gelecegiyazanlar.hocamnerede.Model.User;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +49,15 @@ public class UserProfile extends Fragment {
 
     @OnClick(R.id.userSettingSave)
     public void userSettingSave() {
-
+        if(!userSettingMail.getText().toString().equals(user.getMail())) {
+            FirebaseFactory.updateFirebaseUserMail(userSettingMail.getText().toString(),
+                    new FirebaseFactory.FirebaseCallback() {
+                        @Override
+                        public void onSuccess(Object result) {
+                            Toast.makeText(getActivity(), "Mail değiştirildi.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
 
 }

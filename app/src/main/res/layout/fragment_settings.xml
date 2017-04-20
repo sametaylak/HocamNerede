@@ -16,6 +16,7 @@
 
     <EditText
         android:id="@+id/userSettingFullName"
+        android:enabled="false"
         android:layout_margin="5dp"
         android:padding="10dp"
         android:background="@drawable/et_background"
