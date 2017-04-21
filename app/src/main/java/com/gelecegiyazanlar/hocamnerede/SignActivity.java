@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +48,8 @@ public class SignActivity extends AppCompatActivity {
     @BindView(R.id.signUpPasswordLayout) TextInputLayout signUpPasswordLayout;
     @BindView(R.id.signUpUniversity) Spinner signUpUniversity;
     @BindView(R.id.signUpRole) RadioGroup signUpRole;
+
+    @BindView(R.id.passwordResetMailLayout) TextInputLayout passwordResetMailLayout;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -158,6 +161,21 @@ public class SignActivity extends AppCompatActivity {
     public void showPasswordResetView() {
         loginPanel.setVisibility(View.INVISIBLE);
         passwordResetPanel.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.passwordResetConfirm)
+    public void onPasswordResetConfirmClick() {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(passwordResetMailLayout.getEditText().getText().toString());
+
+        new MaterialDialog.Builder(this)
+                .title("Başarılı!")
+                .content("Parola sıfırlama maili gönderildi!")
+                .contentGravity(GravityEnum.CENTER)
+                .positiveText("Tamam")
+                .iconRes(R.drawable.ic_check_circle)
+                .show();
+
+        passwordResetMailLayout.getEditText().getText().clear();
     }
 
     private boolean validateSignUp() {

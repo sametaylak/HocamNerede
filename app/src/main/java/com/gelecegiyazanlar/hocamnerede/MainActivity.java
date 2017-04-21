@@ -88,13 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         bindViews();
         setupViewPager();
-
-        FirebaseMessaging fm = FirebaseMessaging.getInstance();
-        fm.send(new RemoteMessage.Builder(FirebaseInstanceId.getInstance().getToken() + "@gcm.googleapis.com")
-                .addData("my_message", "Hello World")
-                .addData("my_action","SAY_HELLO")
-                .build());
-
     }
 
     private void setupTabIcons() {

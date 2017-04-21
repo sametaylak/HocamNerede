@@ -22,6 +22,8 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message Notification Message: " + remoteMessage.getData().get("my_message"));
+            sendNotification(remoteMessage.getData().get("my_message"));
         }
     }
 
