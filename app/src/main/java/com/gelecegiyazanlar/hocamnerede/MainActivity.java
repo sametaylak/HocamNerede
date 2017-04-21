@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -21,6 +22,9 @@ import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.gelecegiyazanlar.hocamnerede.views.CustomTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Locale;
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView mUserSmallAvatar;
     SwitchCompat mUserStatusButton;
     RelativeLayout mStatusLayout;
+    CustomTextView mUserStatusText;
 
     TimelineViewPagerAdapter mViewPagerAdapter;
 
@@ -83,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
         bindViews();
         setupViewPager();
+
+        FirebaseMessaging fm = FirebaseMessaging.getInstance();
+        fm.send(new RemoteMessage.Builder(FirebaseInstanceId.getInstance().getToken() + "@gcm.googleapis.com")
+                .addData("my_message", "Hello World")
+                .addData("my_action","SAY_HELLO")
+                .build());
+
     }
 
     private void setupTabIcons() {
@@ -102,11 +114,16 @@ public class MainActivity extends AppCompatActivity {
         mUserSmallAvatar = (CircleImageView) findViewById(R.id.userSmallAvatar);
         mUserStatusButton = (SwitchCompat) findViewById(R.id.userStatusButton);
         mStatusLayout = (RelativeLayout) findViewById(R.id.statusLayout);
+        mUserStatusText = (CustomTextView) findViewById(R.id.userStatusText);
         setSupportActionBar(mToolbar);
 
         mUserStatusButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                    mUserStatusText.setText("Meşgul");
+                else
+                    mUserStatusText.setText("Müsait");
                 FirebaseHelper.updateUserStatus(b);
             }
         });

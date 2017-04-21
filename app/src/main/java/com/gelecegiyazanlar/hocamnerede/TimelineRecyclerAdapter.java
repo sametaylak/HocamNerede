@@ -107,7 +107,7 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
         } else if (diff < 90 * MINUTE) {
             return "1 saat önce";
         } else if (diff < 24 * HOUR) {
-            return diff / HOUR + " dakika önce";
+            return diff / HOUR + " saat önce";
         } else if (diff < 48 * HOUR) {
             return "Dün";
         } else {

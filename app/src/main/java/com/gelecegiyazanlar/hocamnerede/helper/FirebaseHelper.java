@@ -77,6 +77,17 @@ public class FirebaseHelper {
                 .setValue(newMail);
     }
 
+    public static void updateUserFCMToken(String token) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser firebaseUser = getCurrentUser();
+
+        firebaseDatabase.getReference()
+                .child("users")
+                .child(firebaseUser.getUid())
+                .child("senderID")
+                .setValue(token);
+    }
+
     public static void updateUserStatus(boolean status) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser firebaseUser = getCurrentUser();

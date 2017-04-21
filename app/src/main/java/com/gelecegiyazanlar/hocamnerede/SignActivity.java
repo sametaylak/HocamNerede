@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,7 +121,7 @@ public class SignActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                                usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role, null));
+                                usersDatabaseReference.child(user.getUid()).setValue(new User(fullname,mail,university,role, null, FirebaseInstanceId.getInstance().getToken()));
                                 Toast.makeText(SignActivity.this, "Başarıyla üye oldunuz!", Toast.LENGTH_LONG).show();
 
                                 Intent intent = MainActivity.newIntent(SignActivity.this);
