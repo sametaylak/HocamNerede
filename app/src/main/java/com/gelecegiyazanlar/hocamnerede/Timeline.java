@@ -43,9 +43,8 @@ public class Timeline extends Fragment {
     private MaterialDialog locationProgress;
     private TimelineRecyclerAdapter locationAdapter;
 
-
-
     private List<LocationPost> locationPosts = new ArrayList<>();
+
 
     public Timeline() {}
 
