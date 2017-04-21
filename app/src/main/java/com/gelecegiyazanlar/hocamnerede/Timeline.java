@@ -22,7 +22,6 @@ import com.gelecegiyazanlar.hocamnerede.model.LocationPost;
 import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -39,9 +38,12 @@ public class Timeline extends Fragment {
     @BindView(R.id.shareLocationButton) FloatingActionButton shareLocationButton;
     @BindView(R.id.timelineRecyclerView) RecyclerView timelineRecyclerView;
 
+
     private LocationManager locationManager;
     private MaterialDialog locationProgress;
     private TimelineRecyclerAdapter locationAdapter;
+
+
 
     private List<LocationPost> locationPosts = new ArrayList<>();
 
@@ -119,6 +121,10 @@ public class Timeline extends Fragment {
         @Override
         public void onLocationChanged(final Location location) {
             locationProgress.dismiss();
+
+
+            locationAdapter.setLatLong(location);
+
             new MaterialDialog.Builder(getContext())
                     .title("Paylaş")
                     .content("Lütfen açıklama giriniz.")
