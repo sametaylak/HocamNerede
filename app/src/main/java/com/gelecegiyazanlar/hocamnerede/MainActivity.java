@@ -2,6 +2,8 @@ package com.gelecegiyazanlar.hocamnerede;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -19,6 +21,8 @@ import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.gelecegiyazanlar.hocamnerede.views.CustomTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
