@@ -20,10 +20,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
 import com.gelecegiyazanlar.hocamnerede.model.LocationPost;
 import com.gelecegiyazanlar.hocamnerede.model.User;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -59,35 +61,40 @@ public class Timeline extends Fragment {
                 if (user.isStudent()) {
                     shareLocationButton.setVisibility(View.GONE);
                 }
+                FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("locationPosts")
+                        .orderByChild("userUniversity")
+                        .equalTo(user.getUniversity())
+                        .addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                locationPosts.add(0, dataSnapshot.getValue(LocationPost.class));
+                                locationAdapter.notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {}
+                        });
             }
         });
 
-        getLocationPostsAndSetAdapter();
+        setAdapter();
 
         return rootView;
     }
 
-    private void getLocationPostsAndSetAdapter() {
-        FirebaseDatabase.getInstance()
-                .getReference()
-                .child("locationPosts")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                                locationPosts.add(snap.getValue(LocationPost.class));
-                            }
-                            locationAdapter = new TimelineRecyclerAdapter(getContext(), locationPosts);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                            timelineRecyclerView.setLayoutManager(mLayoutManager);
-                            timelineRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            timelineRecyclerView.setAdapter(locationAdapter);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+    private void setAdapter() {
+        locationAdapter = new TimelineRecyclerAdapter(getContext(), locationPosts);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        timelineRecyclerView.setLayoutManager(mLayoutManager);
+        timelineRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        timelineRecyclerView.setAdapter(locationAdapter);
     }
 
     @OnClick(R.id.shareLocationButton)
