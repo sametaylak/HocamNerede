@@ -34,9 +34,16 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
     private List<LocationPost> postList;
     private Context context;
 
+    public double latitude,longtitude;
+
     public TimelineRecyclerAdapter(Context context, List<LocationPost> postList) {
         this.postList = postList;
         this.context = context;
+    }
+
+    public void setLatLong(Location location){
+        latitude = location.getLatitude();
+        longtitude = location.getLongitude();
     }
 
     @Override
@@ -127,6 +134,8 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
         CustomTextView itemFullname;
         CustomTextView itemDescription;
         CustomTextView itemTimestamp;
+
+
 
         public ViewHolder(View view) {
             super(view);

@@ -43,7 +43,6 @@
                 android:textSize="21sp"
                 app:customFont="Lato-Black.ttf"
                 android:text="Samet Aylak"/>
-
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -26,6 +27,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.gelecegiyazanlar.hocamnerede.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Search extends Fragment {
 
@@ -38,6 +45,7 @@ public class Search extends Fragment {
     private UserRecyclerAdapter userSearchAdapter;
 
     public Search() {}
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
