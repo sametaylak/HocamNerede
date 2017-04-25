@@ -2,6 +2,7 @@ package com.gelecegiyazanlar.hocamnerede;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
