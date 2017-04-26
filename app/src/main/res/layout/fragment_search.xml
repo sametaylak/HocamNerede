@@ -11,6 +11,7 @@
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/et_background"
         app:floatingSearch_searchBarMarginLeft="5dp"
         app:floatingSearch_searchBarMarginTop="5dp"
         app:floatingSearch_searchBarMarginRight="5dp"

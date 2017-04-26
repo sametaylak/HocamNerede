@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
+import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.gelecegiyazanlar.hocamnerede.views.CustomTextView;
 
 import java.util.List;
@@ -23,12 +24,12 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
 
 
-    public List<UserTeacher> teacherList;
+    public List<User> teacherList;
     private Context context;
 
     public double latitude,longtitude;
 
-    public SearchRecyclerAdapter(Context context, List<UserTeacher> teacherList) {
+    public SearchRecyclerAdapter(Context context, List<User> teacherList) {
         this.teacherList = teacherList;
         this.context = context;
     }
@@ -48,7 +49,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
 
 
-        final UserTeacher userTeacher = teacherList.get(position);
+        final User userTeacher = teacherList.get(position);
 
         /*
         StaticMap map = new StaticMap()
@@ -74,8 +75,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                     .into(holder.itemAvatar);
         }
 
-        holder.itemDescription.setText(userTeacher.getUserDescription());
-        holder.itemFullname.setText(userTeacher.getUserFullname());
+        holder.itemDescription.setText(userTeacher.getStatus());
+        holder.itemFullname.setText(userTeacher.getFullname());
 
 
         //Burada card view tıklandıgını control et

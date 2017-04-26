@@ -22,6 +22,6 @@
         android:src="@drawable/ic_add_location"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
-        android:layout_margin="10dp"/>
+        android:layout_margin="15dp"/>
 
 </RelativeLayout>

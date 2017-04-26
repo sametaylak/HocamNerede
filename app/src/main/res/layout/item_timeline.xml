@@ -9,6 +9,8 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,10 +36,10 @@
                 android:scaleType="center"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/itemAvatar"
@@ -55,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:customFont="Lato-Black.ttf"
-                android:text="Samet Aylak"/>
+                android:text="Özenç Çelik"/>
 
             <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
                 android:id="@+id/itemDescription"
