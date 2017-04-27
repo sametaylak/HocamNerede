@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
 import com.gelecegiyazanlar.hocamnerede.model.User;
 import com.gelecegiyazanlar.hocamnerede.views.CustomTextView;
 
@@ -67,16 +64,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             e.printStackTrace();
         }
         */
-
-        if (userTeacher.getUserAvatar() != null) {
-            Glide.with(context)
-                    .using(new FirebaseImageLoader())
-                    .load(FirebaseHelper.getUserAvatarRef(userTeacher.getUserAvatar()))
-                    .into(holder.itemAvatar);
-        }
-
-        holder.itemDescription.setText(userTeacher.getStatus());
-        holder.itemFullname.setText(userTeacher.getFullname());
 
 
         //Burada card view tıklandıgını control et

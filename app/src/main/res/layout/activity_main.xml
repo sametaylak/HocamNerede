@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:customFont="Lato-Black.ttf"
-                    android:text="Samet Aylak"
+                    android:text=""
                     android:textColor="#FFF"
                     android:textSize="20sp"/>
 
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:customFont="Lato-Regular.ttf"
-                    android:text="Bartın Üniversitesi"
+                    android:text=""
                     android:textColor="#FFF"
                     android:textSize="11sp"/>
 
