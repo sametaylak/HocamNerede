@@ -1,5 +1,7 @@
 package com.gelecegiyazanlar.hocamnerede.model;
 
+import java.util.Date;
+
 public class LocationPost {
 
     private String userFullname;
@@ -8,6 +10,7 @@ public class LocationPost {
     private Double userLongitude;
     private String userDescription;
     private String userUniversity;
+    private long timestamp;
 
     public LocationPost() {}
 
@@ -18,6 +21,7 @@ public class LocationPost {
         this.userDescription = userDescription;
         this.userUniversity = userUniversity;
         this.userAvatar = userAvatar;
+        this.timestamp = new Date().getTime();
     }
 
     public String getUserAvatar() {
@@ -66,5 +70,13 @@ public class LocationPost {
 
     public void setUserUniversity(String userUniversity) {
         this.userUniversity = userUniversity;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

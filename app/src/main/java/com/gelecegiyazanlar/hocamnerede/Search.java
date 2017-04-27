@@ -2,11 +2,30 @@ package com.gelecegiyazanlar.hocamnerede;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.gelecegiyazanlar.hocamnerede.model.LocationPost;
+import com.gelecegiyazanlar.hocamnerede.model.User;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.gelecegiyazanlar.hocamnerede.model.User;
@@ -17,39 +36,68 @@ import java.util.List;
 
 public class Search extends Fragment {
 
+    @BindView(R.id.searchView) EditText searchView;
+    @BindView(R.id.userRecyclerView) RecyclerView userRecyclerView;
 
-    private SearchRecyclerAdapter searcAdapter;
-    private RecyclerView recyclerView;
+    List<User> userList = new ArrayList<>();
+    List<User> tempList = new ArrayList<>();
 
+    private UserRecyclerAdapter userSearchAdapter;
 
-    private FloatingSearchView mSearchView;
-    private MenuItem searchMenuItem;
-
-    private List<User> userTeacherList = new ArrayList<>();
-
-    public Search(){
-    }
+    public Search() {}
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        ButterKnife.bind(this, rootView);
 
-        View mView = inflater.inflate(R.layout.fragment_search, container, false);
+        setAdapter();
 
-        mSearchView = (FloatingSearchView)mView.findViewById(R.id.search);
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("users")
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        userList.add(dataSnapshot.getValue(User.class));
+                        tempList.add(dataSnapshot.getValue(User.class));
+                        userSearchAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
 
+        return rootView;
+    }
 
+    private void setAdapter() {
+        userSearchAdapter = new UserRecyclerAdapter(getContext(), tempList);
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        userRecyclerView.setLayoutManager(mLayoutManager);
+        userRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        userRecyclerView.setAdapter(userSearchAdapter);
+    }
 
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+    @OnTextChanged(R.id.searchView)
+    public void onSearchTextChanged(CharSequence s) {
+        getFilteredUser(s.toString());
+    }
 
-                //mSearchView.swapSuggestions();
+    private void getFilteredUser(String start) {
+        tempList.clear();
+        for (User u : userList) {
+            if (u.getFullname().toLowerCase().startsWith(start.toLowerCase())) {
+                tempList.add(u);
             }
-        });
-
-
-        return mView;
+        }
+        userSearchAdapter.notifyDataSetChanged();
     }
 }

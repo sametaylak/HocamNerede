@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,17 @@ import com.gelecegiyazanlar.hocamnerede.views.CustomTextView;
 import com.mypopsy.maps.StaticMap;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecyclerAdapter.ViewHolder> {
+    static final int SECOND = 1000;
+    static final int MINUTE = 60 * SECOND;
+    static final int HOUR = 60 * MINUTE;
+    static final int DAY = 24 * HOUR;
 
     private List<LocationPost> postList;
     private Context context;
@@ -49,9 +57,6 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-
-
         final LocationPost locationPost = postList.get(position);
 
         StaticMap map = new StaticMap()
@@ -76,23 +81,46 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
                     .into(holder.itemAvatar);
         }
 
-        holder.itemDescription.setText(locationPost.getUserDescription());
         holder.itemFullname.setText(locationPost.getUserFullname());
-
+        holder.itemDescription.setText(locationPost.getUserDescription());
+        holder.itemTimestamp.setText(getTimeAgo(locationPost.getTimestamp()));
         holder.itemMap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                String geoUriString="geo:"+locationPost.getUserLatitude()+","+locationPost.getUserLongitude()+"?q=("+locationPost.getUserFullname()+")@"+locationPost.getUserLatitude()+","+locationPost.getUserLongitude();
-
-                Uri gmmIntentUri = Uri.parse(geoUriString);
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("geo:"+ locationPost.getUserLatitude() + "," + locationPost.getUserLongitude() + "?q=("+locationPost.getUserFullname()+")@"+locationPost.getUserLatitude()+","+locationPost.getUserLongitude());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
-                    context.startActivity(mapIntent);
-                }
+                context.startActivity(mapIntent);
             }
         });
+    }
+
+    private String getTimeAgo(long time) {
+        if (time < 1000000000000L) {
+            time *= 1000;
+        }
+
+        long now = new Date().getTime();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        final long diff = Math.abs(now - time);
+        if (diff < MINUTE) {
+            return "Şimdi";
+        } else if (diff < 2 * MINUTE) {
+            return "1 dakika önce";
+        } else if (diff < 50 * MINUTE) {
+            return diff / MINUTE + " dakika önce";
+        } else if (diff < 90 * MINUTE) {
+            return "1 saat önce";
+        } else if (diff < 24 * HOUR) {
+            return diff / HOUR + " saat önce";
+        } else if (diff < 48 * HOUR) {
+            return "Dün";
+        } else {
+            return diff / DAY + " gün önce";
+        }
     }
 
     @Override
@@ -106,6 +134,7 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
         CircleImageView itemAvatar;
         CustomTextView itemFullname;
         CustomTextView itemDescription;
+        CustomTextView itemTimestamp;
 
 
 
@@ -115,8 +144,7 @@ public class TimelineRecyclerAdapter extends RecyclerView.Adapter<TimelineRecycl
             itemAvatar = (CircleImageView) view.findViewById(R.id.itemAvatar);
             itemFullname = (CustomTextView) view.findViewById(R.id.itemFullname);
             itemDescription = (CustomTextView)view.findViewById(R.id.itemDescription);
-
-
+            itemTimestamp = (CustomTextView) view.findViewById(R.id.itemTimestamp);
         }
 
     }

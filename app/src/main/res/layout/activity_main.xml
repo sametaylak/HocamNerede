@@ -68,10 +68,11 @@
                         android:layout_height="wrap_content" />
 
                     <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
+                        android:id="@+id/userStatusText"
+                        android:text="Müsait"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Meşgul"
-                        android:textSize="14sp" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

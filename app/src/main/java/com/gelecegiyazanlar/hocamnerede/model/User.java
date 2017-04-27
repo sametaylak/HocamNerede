@@ -7,16 +7,18 @@ public class User {
     private String role;
     private String avatar;
     private boolean status;
+    private String senderID;
 
     public User() { }
 
-    public User(String fullname, String mail, String university, String role, String avatar) {
+    public User(String fullname, String mail, String university, String role, String avatar, String senderID) {
         this.fullname = fullname;
         this.mail = mail;
         this.university = university;
         this.role = role;
         this.avatar = avatar;
         this.status = true;
+        this.senderID = senderID;
     }
 
     public String getFullname() {
@@ -70,4 +72,13 @@ public class User {
     public boolean isStudent() {
         return this.role.equals("Öğrenci");
     }
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public void setSenderID(String senderID) {
+        this.senderID = senderID;
+    }
+
 }

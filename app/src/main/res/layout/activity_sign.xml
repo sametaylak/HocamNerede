@@ -13,16 +13,14 @@
     <RelativeLayout
         android:background="@drawable/background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="230dp">
 
-        <com.gelecegiyazanlar.hocamnerede.views.CustomTextView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:gravity="center"
-            app:customFont="Lato-Black.ttf"
-            android:textColor="#FFF"
-            android:textSize="34sp"
-            android:text="Hocam Nerede?"/>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_centerInParent="true"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/logo"/>
 
     </RelativeLayout>
 

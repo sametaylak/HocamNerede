@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.gelecegiyazanlar.hocamnerede.helper.FirebaseHelper;
@@ -60,7 +61,6 @@ public class UserProfile extends Fragment {
             }
         });
 
-
         return view;
     }
 
@@ -89,11 +89,19 @@ public class UserProfile extends Fragment {
                     .getReference()
                     .child("avatars/" + selectedImage.getLastPathSegment());
 
+            final MaterialDialog uploadAvatarDialog = new MaterialDialog.Builder(getContext())
+                    .title("Lütfen bekleyin")
+                    .content("Avatar yükleniyor...")
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(true)
+                    .cancelable(false)
+                    .show();
             avatarRef.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     FirebaseHelper.updateUserAvatar(selectedImage.getLastPathSegment());
                     userSettingAvatar.setImageURI(selectedImage);
+                    uploadAvatarDialog.dismiss();
                 }
             });
         }
@@ -103,12 +111,15 @@ public class UserProfile extends Fragment {
         String oldPassword = userSettingOldPassword.getText().toString();
         String newPassword = userSettingNewPassword.getText().toString();
         if (!oldPassword.isEmpty() && !newPassword.isEmpty()) {
+            Toast.makeText(getActivity(), "Şifreniz değiştiriliyor...", Toast.LENGTH_LONG).show();
             FirebaseHelper.updateUserPassword(oldPassword, newPassword, new FirebaseHelper.FirebaseCallback() {
                 @Override
                 public void onSuccess(Object result) {
                     boolean status = (boolean)result;
-                    if(status) Toast.makeText(getActivity(), "Şifre değiştirildi!", Toast.LENGTH_LONG).show();
-                    else Toast.makeText(getActivity(), "Şifre değiştirirken bir sorun meydana geldi!", Toast.LENGTH_LONG).show();
+                    if (status)
+                        Toast.makeText(getActivity(), "Şifre değiştirildi!", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getActivity(), "Şifre değiştirirken bir sorun meydana geldi!", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -117,6 +128,7 @@ public class UserProfile extends Fragment {
 
     private void updateMail() {
         if(!userSettingMail.getText().toString().equals(user.getMail())) {
+            Toast.makeText(getActivity(), "Mailiniz değiştiriliyor...", Toast.LENGTH_LONG).show();
             FirebaseHelper.updateFirebaseUserMail(userSettingMail.getText().toString(),
                     new FirebaseHelper.FirebaseCallback() {
                         @Override
