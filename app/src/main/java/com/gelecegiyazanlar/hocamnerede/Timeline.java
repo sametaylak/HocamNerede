@@ -14,6 +14,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -24,8 +25,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,7 @@ import butterknife.OnClick;
 public class Timeline extends Fragment {
 
     @BindView(R.id.shareLocationButton) FloatingActionButton shareLocationButton;
-    @BindView(R.id.timelineRecyclerView) RecyclerView timelineRecyclerView;
-
+    private RecyclerView timelineRecyclerView;
 
     private LocationManager locationManager;
     private MaterialDialog locationProgress;
@@ -47,13 +45,55 @@ public class Timeline extends Fragment {
 
     private List<LocationPost> locationPosts = new ArrayList<>();
 
+    private RelativeLayout timelimeLayout;
+
+    private View rootView;
+
+
+
 
     public Timeline() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
         ButterKnife.bind(this, rootView);
+
+        /*
+
+        timelimeLayout = (RelativeLayout) rootView.findViewById(R.id.timelineLayout);
+        timelineRecyclerView = (RecyclerView)rootView.findViewById(R.id.timelineRecyclerView);
+
+
+
+        timelimeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getContext(),"Layout a Tıklıyorsun",Toast.LENGTH_SHORT).show();
+                shareLocationButton.setVisibility(View.GONE);
+            }
+        });
+
+
+        timelineRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Recycler View a Tıklıyorsun",Toast.LENGTH_SHORT).show();
+                shareLocationButton.setVisibility(View.GONE);
+            }
+        });
+
+
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Root View a Tıklıyorsun",Toast.LENGTH_SHORT).show();
+                shareLocationButton.setVisibility(View.GONE);
+            }
+        });
+
+        */
 
         FirebaseHelper.getFirebaseUserDetail(new FirebaseHelper.FirebaseCallback() {
             @Override
@@ -97,6 +137,8 @@ public class Timeline extends Fragment {
         timelineRecyclerView.setItemAnimator(new DefaultItemAnimator());
         timelineRecyclerView.setAdapter(locationAdapter);
     }
+
+
 
     @OnClick(R.id.shareLocationButton)
     public void onShareLocationButtonClick() {
